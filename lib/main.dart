@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _currentmin = 0;
   int _currentsec = 0;
-  int _click = 0;
+  bool _click = false;
   int _start;
   Timer _timer;
 
@@ -54,6 +54,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var screensize = MediaQuery.of(context).size;
+    print(_click);
+
     return Scaffold(
         backgroundColor: Color(0xff6e5773),
         appBar: AppBar(
@@ -93,25 +96,26 @@ class _MyHomePageState extends State<MyHomePage> {
             ]),
         body: Center(
           child: Container(
-            height: 600,
+            height: screensize.height * 0.705,
+            width: screensize.width * 0.755,
             child: FlatButton(
               color: Color(0xffd45d79),
               shape: CircleBorder(),
               onLongPress: () {
-                // reset timer value to 0
                 setState(() {
                   _timer.cancel();
-                  _click = 0;
+                  _click = false;
                   _currentmin = 0;
                   _currentsec = 0;
+                  print(_click);
                 });
               },
               onPressed: () {
-                _click++;
-                print(_click);
-                if (_click % 2 == 1) {
+                //use boolean to decide start/pause timer
+                _click = !_click;
+                if (_click == true) {
                   startTimer();
-                } else if (_click % 2 == 0) {
+                } else if (_click == false) {
                   _timer.cancel();
                 }
               },
@@ -120,8 +124,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      height: 200,
-                      width: 200,
+                      //set one for width 450, height 850
+                      //set one for width 1080, height 1400
+                      //the rest is for desktop size
+                      height: screensize.height * 0.25,
+                      width: screensize.width * 0.205,
                       child: FlatButton(
                           shape: RoundedRectangleBorder(
                               borderRadius:
@@ -148,8 +155,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     SizedBox(width: 50),
                     Container(
-                      height: 200,
-                      width: 200,
+                      //set one for width 450, height 850
+                      //set one for width 1080, height 1400
+                      //the rest is for desktop size
+                      height: screensize.height * 0.25,
+                      width: screensize.width * 0.205,
                       child: FlatButton(
                           color: Color(0xffea9085),
                           shape: RoundedRectangleBorder(
